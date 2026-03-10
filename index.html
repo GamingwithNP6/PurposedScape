@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PurposedScape | Albuquerque Desert Landscaping</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sand: #e8dcc8;
+      --clay: #c17f4a;
+      --terracotta: #b85c38;
+      --sage: #7a9e7e;
+      --deep: #1e1a14;
+      --warm-white: #faf6ef;
+      --stone: #4a4035;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--deep);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(250,246,239,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(193,127,74,0.2);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--terracotta);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--sage); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--stone);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--terracotta); }
+    .nav-cta {
+      background: var(--terracotta);
+      color: white !important;
+      padding: 0.5rem 1.4rem;
+      border-radius: 2px;
+    }
+    .nav-cta:hover { background: var(--clay); color: white !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 4rem 5rem 5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1.05;
+      font-weight: 900;
+      color: var(--deep);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--stone);
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn-primary {
+      background: var(--terracotta);
+      color: white;
+      padding: 0.9rem 2.2rem;
+      border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #a04f30; transform: translateY(-1px); }
+    .btn-secondary {
+      color: var(--stone);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--terracotta); }
+    .btn-secondary::after { content: '→'; transition: transform 0.2s; }
+    .btn-secondary:hover::after { transform: translateX(4px); }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeIn 1.2s 0.5s forwards;
+    }
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(184,92,56,0.15) 0%, transparent 60%);
+      z-index: 1;
+    }
+    .hero-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-badge {
+      position: absolute;
+      bottom: 3rem; left: -2rem;
+      background: var(--deep);
+      color: white;
+      padding: 1.5rem 2rem;
+      z-index: 3;
+      border-left: 4px solid var(--terracotta);
+      opacity: 0;
+      animation: slideRight 0.8s 1.2s forwards;
+    }
+    .hero-badge-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--clay);
+      line-height: 1;
+    }
+    .hero-badge-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-top: 0.3rem;
+    }
+
+    /* TEXTURE OVERLAY */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.4;
+    }
+
+    /* STRIP */
+    .strip {
+      background: var(--deep);
+      color: var(--sand);
+      padding: 1rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .strip-inner {
+      display: inline-flex;
+      gap: 3rem;
+      animation: scroll 20s linear infinite;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .strip-dot { color: var(--terracotta); }
+
+    /* ABOUT */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 70vh;
+    }
+    .about-visual {
+      position: relative;
+      background: var(--sand);
+      overflow: hidden;
+    }
+    .about-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .about-visual-accent {
+      position: absolute;
+      top: 3rem; right: -1.5rem;
+      width: 120px; height: 120px;
+      border: 3px solid var(--terracotta);
+      border-radius: 50%;
+    }
+    .about-content {
+      padding: 6rem 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      color: var(--deep);
+    }
+    .section-title em { font-style: italic; color: var(--terracotta); }
+    .section-body {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--stone);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    .stat-row {
+      display: flex; gap: 2.5rem; margin-top: 1rem;
+    }
+    .stat { border-left: 3px solid var(--clay); padding-left: 1rem; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--terracotta);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-top: 0.25rem;
+    }
+
+    /* SERVICES */
+    .services {
+      background: var(--deep);
+      padding: 7rem 5rem;
+    }
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+    .services-header .section-title { color: var(--sand); margin-bottom: 0; }
+    .services-header .section-label { color: var(--clay); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(255,255,255,0.08);
+    }
+    .service-card {
+      background: var(--deep);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .service-card:hover { background: #2a2419; }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 3px; width: 0;
+      background: var(--terracotta);
+      transition: width 0.4s;
+    }
+    .service-card:hover::before { width: 100%; }
+    .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--sand);
+      margin-bottom: 0.8rem;
+    }
+    .service-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: rgba(232,220,200,0.6);
+      font-weight: 300;
+    }
+
+    /* BEFORE/AFTER */
+    .portfolio {
+      padding: 7rem 5rem;
+      background: var(--warm-white);
+    }
+    .portfolio-header { text-align: center; margin-bottom: 4rem; }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+    }
+    .ba-card {
+      border: 1px solid rgba(193,127,74,0.2);
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    .ba-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      background: var(--clay);
+      height: 240px;
+    }
+    .ba-slot {
+      position: relative;
+      overflow: hidden;
+      background: var(--sand);
+    }
+    .ba-slot img { width: 100%; height: 100%; object-fit: cover; }
+    .ba-label {
+      position: absolute;
+      top: 0.6rem; left: 0.6rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 0.25rem 0.6rem;
+      border-radius: 1px;
+    }
+    .ba-label.before { background: var(--deep); color: var(--sand); }
+    .ba-label.after { background: var(--terracotta); color: white; }
+    .ba-info {
+      padding: 1.5rem;
+      background: white;
+    }
+    .ba-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--deep);
+      margin-bottom: 0.3rem;
+    }
+    .ba-location { font-size: 0.8rem; color: var(--clay); letter-spacing: 0.05em; }
+
+    /* REVIEWS */
+    .reviews {
+      background: var(--sand);
+      padding: 7rem 5rem;
+    }
+    .reviews-header { text-align: center; margin-bottom: 4rem; }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .review-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 2px;
+      position: relative;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .review-card:hover { border-color: var(--terracotta); transform: translateY(-4px); }
+    .review-stars { color: var(--clay); font-size: 1rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .review-text {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--stone);
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .review-author {
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--deep);
+      letter-spacing: 0.05em;
+    }
+    .review-location { font-size: 0.75rem; color: var(--clay); margin-top: 0.2rem; }
+    .review-quote {
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: rgba(193,127,74,0.1);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: var(--terracotta);
+      padding: 6rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 3rem;
+    }
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 900;
+      color: white;
+      line-height: 1.1;
+    }
+    .cta-title em { font-style: italic; opacity: 0.75; }
+    .cta-sub {
+      margin-top: 0.8rem;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.8);
+      font-weight: 300;
+    }
+    .btn-white {
+      background: white;
+      color: var(--terracotta);
+      padding: 1.1rem 2.8rem;
+      border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+
+    /* CONTACT */
+    .contact {
+      padding: 7rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+    }
+    .contact-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--deep);
+    }
+    .contact-detail {
+      display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start;
+    }
+    .contact-detail-icon {
+      width: 40px; height: 40px;
+      background: var(--sand);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-detail-text label {
+      display: block; font-size: 0.72rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--clay); margin-bottom: 0.2rem;
+    }
+    .contact-detail-text span { font-size: 0.95rem; color: var(--stone); }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-field label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); }
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(74,64,53,0.2);
+      border-radius: 2px;
+      background: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--deep);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus { border-color: var(--terracotta); }
+    .form-field textarea { resize: vertical; min-height: 100px; }
+
+    /* FOOTER */
+    footer {
+      background: var(--deep);
+      color: var(--sand);
+      padding: 3rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: white;
+    }
+    .footer-logo span { color: var(--clay); }
+    .footer-tagline { font-size: 0.78rem; opacity: 0.5; margin-top: 0.3rem; letter-spacing: 0.05em; }
+    .footer-copy { font-size: 0.78rem; opacity: 0.4; text-align: right; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* PLACEHOLDER COLORS for missing images */
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .ph-before { background: linear-gradient(135deg, #c4b49a, #a8906e); }
+    .ph-after { background: linear-gradient(135deg, #8aad8e, #5c7d60); }
+    .ph-hero { background: linear-gradient(160deg, #b8c9aa 0%, #7a9e7e 40%, #4a6b4e 100%); }
+    .ph-about { background: linear-gradient(160deg, #c9b594 0%, #a07b50 100%); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Purposed<span>Scape</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Albuquerque's Desert Landscape Specialists</p>
+      <h1 class="hero-title">Designed with<br/><em>Purpose.</em><br/>Built to Last.</h1>
+      <p class="hero-subtitle">Native plants, stunning hardscapes, and water-smart xeriscape design — crafted for New Mexico's unique climate and light.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Get a Free Quote</a>
+        <a href="#portfolio" class="btn-secondary">See Our Work</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="img-placeholder ph-hero" style="height:100%; min-height:500px;">🌵</div>
+      <div class="hero-badge">
+        <div class="hero-badge-num">5+</div>
+        <div class="hero-badge-label">Years Serving ABQ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE STRIP -->
+  <div class="strip">
+    <div class="strip-inner">
+      <span>Xeriscaping</span><span class="strip-dot">✦</span>
+      <span>Native Plants</span><span class="strip-dot">✦</span>
+      <span>Hardscaping</span><span class="strip-dot">✦</span>
+      <span>Drip Irrigation</span><span class="strip-dot">✦</span>
+      <span>Flagstone Patios</span><span class="strip-dot">✦</span>
+      <span>Desert Design</span><span class="strip-dot">✦</span>
+      <span>Outdoor Lighting</span><span class="strip-dot">✦</span>
+      <span>Retaining Walls</span><span class="strip-dot">✦</span>
+      <span>Xeriscaping</span><span class="strip-dot">✦</span>
+      <span>Native Plants</span><span class="strip-dot">✦</span>
+      <span>Hardscaping</span><span class="strip-dot">✦</span>
+      <span>Drip Irrigation</span><span class="strip-dot">✦</span>
+      <span>Flagstone Patios</span><span class="strip-dot">✦</span>
+      <span>Desert Design</span><span class="strip-dot">✦</span>
+      <span>Outdoor Lighting</span><span class="strip-dot">✦</span>
+      <span>Retaining Walls</span><span class="strip-dot">✦</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-visual">
+      <div class="img-placeholder ph-about" style="height:100%; min-height:500px; font-size:4rem;">🏜️</div>
+      <div class="about-visual-accent"></div>
+    </div>
+    <div class="about-content">
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">We Know the<br/><em>Desert.</em></h2>
+      <p class="section-body">
+        PurposedScape was founded in 2019 by Marco Delgado, a lifelong Albuquerque native with a deep love for the high desert landscape. After years watching homeowners fight against the climate instead of working with it, Marco set out to build a landscaping company rooted in intentionality — using native plants, smart water systems, and timeless design to create outdoor spaces that thrive in New Mexico.
+      </p>
+      <p class="section-body">
+        Today, PurposedScape serves Albuquerque, Rio Rancho, Corrales, and Bernalillo — bringing desert-smart design and old-fashioned craftsmanship to every project, big or small.
+      </p>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">200+</div>
+          <div class="stat-label">Projects Completed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">5★</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Cities Served</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-header">
+      <div>
+        <p class="section-label">What We Do</p>
+        <h2 class="section-title" style="color:var(--sand)">Our <em style="color:var(--clay)">Services</em></h2>
+      </div>
+      <a href="#contact" class="btn-primary">Book a Consult</a>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🌵</span>
+        <div class="service-name">Xeriscaping</div>
+        <p class="service-desc">Water-wise landscape design using drought-tolerant native plants, decomposed granite, and efficient layout — beautiful and sustainable year-round.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🪨</span>
+        <div class="service-name">Hardscaping</div>
+        <p class="service-desc">Flagstone patios, retaining walls, gravel pathways, and decorative boulders — durable stonework that frames your outdoor living space.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">💧</span>
+        <div class="service-name">Drip Irrigation</div>
+        <p class="service-desc">Custom irrigation systems designed for our desert climate. Cut water waste and keep plants thriving with precision drip delivery.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🌿</span>
+        <div class="service-name">Native Planting</div>
+        <p class="service-desc">Desert willows, black-eyed Susans, Apache plume, and more — curated native plantings that attract pollinators and require minimal maintenance.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">💡</span>
+        <div class="service-name">Outdoor Lighting</div>
+        <p class="service-desc">Low-voltage landscape lighting that extends your outdoor enjoyment into the evening and highlights the texture of your yard after dark.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📐</span>
+        <div class="service-name">Design Consultation</div>
+        <p class="service-desc">Not sure where to start? Our full design consultation walks you through a personalized plan for your yard, budget, and lifestyle.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO / BEFORE & AFTER -->
+  <section class="portfolio" id="portfolio">
+    <div class="portfolio-header">
+      <p class="section-label">Before & After</p>
+      <h2 class="section-title">Real Yards, <em>Real Results</em></h2>
+    </div>
+    <div class="portfolio-grid">
+
+      <!-- Job 1 -->
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-slot">
+            <div class="img-placeholder ph-before">🏚️</div>
+            <span class="ba-label before">Before</span>
+          </div>
+          <div class="ba-slot">
+            <div class="img-placeholder ph-after">🌺</div>
+            <span class="ba-label after">After</span>
+          </div>
+        </div>
+        <div class="ba-info">
+          <div class="ba-name">Nob Hill Front Yard Xeriscape</div>
+          <div class="ba-location">📍 Nob Hill, Albuquerque — Client: Maria T.</div>
+        </div>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-slot">
+            <div class="img-placeholder ph-before">🍂</div>
+            <span class="ba-label before">Before</span>
+          </div>
+          <div class="ba-slot">
+            <div class="img-placeholder ph-after">🌾</div>
+            <span class="ba-label after">After</span>
+          </div>
+        </div>
+        <div class="ba-info">
+          <div class="ba-name">Corrales Desert Garden Overhaul</div>
+          <div class="ba-location">📍 Corrales, NM — Client: Carlos M.</div>
+        </div>
+      </div>
+
+      <!-- Job 3 — no before photo -->
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-slot" style="display:flex;align-items:center;justify-content:center;background:#e8dcc8;">
+            <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#7a6a55;text-align:center;padding:1rem;">No Before<br/>Photo on File</span>
+            <span class="ba-label before">Before</span>
+          </div>
+          <div class="ba-slot">
+            <div class="img-placeholder ph-after">🪨</div>
+            <span class="ba-label after">After</span>
+          </div>
+        </div>
+        <div class="ba-info">
+          <div class="ba-name">Four Hills Flagstone Patio</div>
+          <div class="ba-location">📍 Four Hills, Albuquerque — Client: Susan K.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews" id="reviews">
+    <div class="reviews-header">
+      <p class="section-label">Customer Reviews</p>
+      <h2 class="section-title">What Our <em>Clients Say</em></h2>
+    </div>
+    <div class="reviews-grid">
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Marco and his crew completely transformed our backyard. We went from a dead grass wasteland to a gorgeous xeriscape with decomposed granite, native plants, and a beautiful flagstone path. Neighbors keep asking who did it.</p>
+        <div class="review-author">Maria T.</div>
+        <div class="review-location">Nob Hill, Albuquerque</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">PurposedScape gave us a design consult, stuck to the budget, and finished in just 4 days. The drip irrigation alone has cut our water bill significantly. Professional, punctual, and genuinely passionate about their work.</p>
+        <div class="review-author">James & Loretta H.</div>
+        <div class="review-location">Rio Rancho, NM</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">★★★★½</div>
+        <p class="review-text">Really happy with how our side yard turned out. They installed a retaining wall and planted desert willows and black-eyed Susans. They communicated well and made everything right. Would absolutely use again.</p>
+        <div class="review-author">Deb R.</div>
+        <div class="review-location">North Valley, Albuquerque</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">These guys know the desert. I was tired of fighting Bermuda grass in our climate — PurposedScape redesigned everything with low-water natives and it looks incredible year-round. Fast, friendly, and spotless cleanup.</p>
+        <div class="review-author">Carlos M.</div>
+        <div class="review-location">Corrales, NM</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Hired PurposedScape for a full backyard overhaul including a paver patio, raised planter beds, and outdoor lighting. The result looks like something out of a magazine. Marco has a real eye for design.</p>
+        <div class="review-author">Susan K.</div>
+        <div class="review-location">Four Hills, Albuquerque</div>
+      </div>
+
+      <div class="review-card" style="background:var(--terracotta); border-bottom-color: var(--deep);">
+        <div style="font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:white; margin-bottom:1rem;">Ready to transform your yard?</div>
+        <p style="font-size:0.92rem; color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom:1.5rem;">Join hundreds of happy homeowners across the Albuquerque metro area.</p>
+        <a href="#contact" class="btn-white">Get a Free Quote</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="cta-section">
+    <div>
+      <h2 class="cta-title">Your yard should work <em>with</em><br/>the desert, not against it.</h2>
+      <p class="cta-sub">Free consultations available throughout the Albuquerque metro area.</p>
+    </div>
+    <a href="#contact" class="btn-white">Schedule Your Consult →</a>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-info">
+      <p class="section-label">Get In Touch</p>
+      <h3>Let's Build Something <em style="font-style:italic;color:var(--terracotta)">Beautiful</em></h3>
+      <br/>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📞</div>
+        <div class="contact-detail-text">
+          <label>Phone</label>
+          <span>(505) 774-2291</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">✉️</div>
+        <div class="contact-detail-text">
+          <label>Email</label>
+          <span>hello@purposedscape.com</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📍</div>
+        <div class="contact-detail-text">
+          <label>Service Area</label>
+          <span>Albuquerque · Rio Rancho · Corrales · Bernalillo</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">🕐</div>
+        <div class="contact-detail-text">
+          <label>Hours</label>
+          <span>Mon–Sat: 7am – 6pm</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="section-label">Free Estimate</p>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label>First Name</label>
+            <input type="text" placeholder="Maria"/>
+          </div>
+          <div class="form-field">
+            <label>Last Name</label>
+            <input type="text" placeholder="Torres"/>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" placeholder="maria@email.com"/>
+        </div>
+        <div class="form-field">
+          <label>Phone</label>
+          <input type="tel" placeholder="(505) 000-0000"/>
+        </div>
+        <div class="form-field">
+          <label>Service Needed</label>
+          <select>
+            <option>Xeriscaping</option>
+            <option>Hardscaping</option>
+            <option>Drip Irrigation</option>
+            <option>Native Planting</option>
+            <option>Outdoor Lighting</option>
+            <option>Full Design Consultation</option>
+            <option>Not Sure — Need Advice</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Tell Us About Your Project</label>
+          <textarea placeholder="Describe your yard, goals, or questions..."></textarea>
+        </div>
+        <button class="btn-primary" style="align-self:flex-start; padding:0.9rem 2.5rem;">Send My Request →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-logo">Purposed<span>Scape</span></div>
+      <div class="footer-tagline">Designed with Purpose. Built to Last.</div>
+    </div>
+    <div class="footer-copy">
+      © 2024 PurposedScape LLC · Albuquerque, NM<br/>
+      License #NM-L-20192291
+    </div>
+  </footer>
+
+</body>
+</html>
